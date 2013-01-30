@@ -44,7 +44,7 @@ Next steps:
 How it works
 ============
 
-The backend is mainly running a gphoto session as a daemon. It keeps the connection to the camera open as long as it runs, independent from client. It'sroutines are called remotely from a CGI-script through the pyro framework.
+The backend is mainly running a gphoto session as a daemon. It keeps the connection to the camera open as long as it runs, independent from client. It's routines are called remotely from a CGI-script through the pyro framework.
 The CGI-script itself simply translates URL commands into python calls.
 The backend heavily relies on piggyphoto, the python bindings for libgphoto
 
