@@ -7,7 +7,7 @@ About this project
 ==================
 
 This project is based on ideas of David Hunt (http://davidhunt.ie/?p=2641) and Kürth Williams (http://islandinthenet.com/2012/08/23/hdr-photography-with-raspberry-pi-and-gphoto2/) who describe different approaches on how to control a digital camera remotely with a Raspberry Pi mini computer.
-The vision is to have a battery powered linux system sitting closed to the camera and function as a "second brain" for it, enhancing the built-in features in many ways (bracketing, focus stacking, time lapse, remote control....)
+The vision is to have a battery powered linux system sitting close to the camera and function as a "second brain" for it, enhancing the built-in features in many ways (bracketing, focus stacking, time lapse, remote control....)
 
 This implementation offers a python back-end and a HTML5 user interface for remote camera control via libgphoto2. 
 The backend is aimed to work with all cameras supported by gPhoto2 (http://www.gphoto.org/proj/libgphoto2/support.php). The frontend should work with any device supported by jquery mobile (http://jquerymobile.com/gbs/)
