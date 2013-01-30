@@ -1,7 +1,7 @@
 Schnapphoto
-========
+===========
 
-Middleware and webapp-interface to remotely control your digital camera with your mobile device
+Middleware and webapp-interface to remotely control your digital camera with a mobile device
 
 About this project
 ==================
@@ -34,14 +34,17 @@ Next steps:
 - write back altered (capture) settings
 - wire everything together for bracketing
 - read and write back files from camera
-- retrieve GPS postition from client and write them into EXIF block
+- cache read-only values from camera (widget options)
+- dynamically adopt UI to camera capabilities
+- retrieve GPS postition from client
+- write GPS data into EXIF block after every shot
 - enable tethering (initiate actions when camera button is pressed)
-- etc
+- write command line interface (alternative to CGI interface for testing)
 
 How it works
 ============
 
-The backend is mainly running a gphoto session as a daemon. It receives commands from a CGI-script through the pyro framework.
+The backend is mainly running a gphoto session as a daemon. It keeps the connection to the camera open as long as it runs, independent from client. It'sroutines are called remotely from a CGI-script through the pyro framework.
 The CGI-script itself simply translates URL commands into python calls.
 The backend heavily relies on piggyphoto, the python bindings for libgphoto
 
