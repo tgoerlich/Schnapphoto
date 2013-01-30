@@ -25,6 +25,18 @@ planned features:
   - browse camera roll
   - geotag pictures using your smartphone's GPS
   - synchronise client's / camera's clock and timezone
+ 
+Current status
+==============
+
+Right now, the project is still in "proof of concept" status. A neat web interface exists, the backend connects with the gphoto libraries and reading of capture settings works.
+Next steps:
+- write back altered (capture) settings
+- wire everything together for bracketing
+- read and write back files from camera
+- retrieve GPS postition from client and write them into EXIF block
+- enable tethering (initiate actions when camera button is pressed)
+- etc
 
 How it works
 ============
@@ -54,5 +66,5 @@ recommended hardware setup
 - A digital camera that is capable of tethered shootings with gPhoto. I used a Nikon D40X for development.
 - A linux system that connects to the camera via usb. In my case, it's a Raspberry Pi with the latest Raspbian Wheezy
 - A Wifi-adapter running in host mode (so you can connect to the host with your smartphone if you do shootings outside)
-- If you want to move around with your camera and system, a battey power supply my be usefull. I decided to build my own power supply with two LiPo batteries and a step-up DC/DC converter, fitting nicely together with the RasPi and a switch into a little box that sits on the flash mount of my DSLR.
+- If you want to move around with your camera and system, a battery power supply my be usefull. I decided to build my own power supply with two LiPo batteries and a step-up DC/DC converter, fitting nicely together with the RasPi and a switch into a little box that sits on the flash mount of my DSLR.
 - A smartphone or other mobile device with a recent web browser and Wi-Fi. I personally use an iPhone 4.
