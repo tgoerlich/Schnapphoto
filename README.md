@@ -29,14 +29,20 @@ planned features:
 How it works
 ============
 
+The backend is mainly running a gphoto session as a daemon. It receives commands from a CGI-script through the pyro framework.
+The CGI-script itself simply translates URL commands into python calls.
 The backend heavily relies on piggyphoto, the python bindings for libgphoto
-The frontend is based on jquery mobile
+
+The frontend is based on jquery mobile. It's a mobile web app that queries the backend dynamically through ajax calls.
 
 System requirements
 ===================
 
 - libghoto2 (deleloped on version 2.5, don't know about earlier versions)
 - Python 2.7 (didn't try python 3 yet)
+- These Python modules:
+  - Pyro4
+  - <tbd>
 - piggyphoto (find it on github, make sure to get the latest version / trunk)
 - jquery mobile
 - a webserver (apache), configured to execute CGI scripts
@@ -45,8 +51,8 @@ as a client, any recent web browser will do.
 
 recommended hardware setup
 ==========================
-- a digital camera that is capable of tethered shootings with gPhoto
-- a linux system that connects to the camera via usb
-  in my case, it's a Raspberry Pi with the latest Raspbian Wheezy
-- a Wifi-adapter running in host mode (so you can connect to the host with your smartphone if you do shootings outside)
-
+- A digital camera that is capable of tethered shootings with gPhoto. I used a Nikon D40X for development.
+- A linux system that connects to the camera via usb. In my case, it's a Raspberry Pi with the latest Raspbian Wheezy
+- A Wifi-adapter running in host mode (so you can connect to the host with your smartphone if you do shootings outside)
+- If you want to move around with your camera and system, a battey power supply my be usefull. I decided to build my own power supply with two LiPo batteries and a step-up DC/DC converter, fitting nicely together with the RasPi and a switch into a little box that sits on the flash mount of my DSLR.
+- A smartphone or other mobile device with a recent web browser and Wi-Fi. I personally use an iPhone 4.
