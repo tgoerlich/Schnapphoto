@@ -1,0 +1,1 @@
+/usr/lib/cgi-bin/schnapphoto_cgi.py.py
