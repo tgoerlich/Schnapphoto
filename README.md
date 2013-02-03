@@ -71,4 +71,7 @@ recommended hardware setup
 - A Wifi-adapter running in host mode (so you can connect to the host with your smartphone if you do shootings outside)
 - If you want to move around with your camera and system, a battery power supply my be usefull. I decided to build my own power supply with two LiPo batteries and a step-up DC/DC converter, fitting nicely together with the RasPi and a switch into a little box that sits on the flash mount of my DSLR.
 - A smartphone or other mobile device with a recent web browser and Wi-Fi. I personally use an iPhone 4.
+<<<<<<< HEAD
 
+=======
+>>>>>>> f0856f5a2e061c855c6689226aeec017dd0538a8
