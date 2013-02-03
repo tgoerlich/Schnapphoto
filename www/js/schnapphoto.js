@@ -154,8 +154,29 @@
       });
       
     }
+    
+    function changeTheme() {
+	var theme = $("#ddlTheme :selected").val();
+	var cssUrl = 'css/themes/you-can-red.css';
 
+	var themeStyle = $("#theme-style");
+	themeStyle.attr({
+	    rel:  "stylesheet",
+	    type: "text/css",
+	    href: cssUrl
+	}); 
 
+    }
+
+    function initiate_geolocation() {  
+      navigator.geolocation.getCurrentPosition(handle_geolocation_query);  
+    }  
+    
+    function handle_geolocation_query(position){  
+      $('#gps_lat').html(position.coords.latitude);
+      $('#gps_long').html(position.coords.longitude);
+    }  
+        
 
 $(document).ready(function () {
 	get_cameraclient( $('#camidentifier'),"get_model","")
@@ -170,5 +191,7 @@ $(document).ready(function () {
 	$("#click_button").on("click",function(event, ui) {
 		click();
 	});
+	$('#gps_long').html="hello world";
+	initiate_geolocation();
   
 }); 
