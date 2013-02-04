@@ -124,16 +124,11 @@
 
     
     
-    function updateClock (element)
+    function updateClock (element1, element2)
     {
 	var currentTime = new Date ( );
-	var currentHours = currentTime.getHours ( );
-	var currentMinutes = currentTime.getMinutes ( );
-	var currentSeconds = currentTime.getSeconds ( );
-
-	var currentTimeString = currentHours + ":" + currentMinutes + ":" + currentSeconds;
-	
-	element.html(currentTimeString);
+	element1.html(currentTime.getHours()+ ":" + currentTime.getMinutes() + ":" + currentTime.getSeconds());
+	element2.html(currentTime.getDate()+"."+currentTime.getMonth()+"."+currentTime.getFullYear());
     }
 
 
@@ -152,7 +147,6 @@
 	  alert(data);
 	}
       });
-      
     }
     
     function changeTheme() {
@@ -168,17 +162,50 @@
 
     }
 
-    function initiate_geolocation() {  
-      navigator.geolocation.getCurrentPosition(handle_geolocation_query);  
+    function geotrack_start() 
+    {  
+      window.watchID=navigator.geolocation.watchPosition(geolocation_watch, geolocation_error);  
     }  
     
-    function handle_geolocation_query(position){  
+    
+    function geotrack_stop()
+    {
+       navigator.geolocation.clearWatch(window.watchId);
+    }
+    
+    function geolocation_watch(position)
+    {
       $('#gps_lat').html(position.coords.latitude);
       $('#gps_long').html(position.coords.longitude);
-    }  
+      var currentTime = new Date ( );
+      var sun = new SunriseSunset(currentTime.getUTCFullYear(),currentTime.getUTCMonth(),currentTime.getUTCDate(),position.coords.latitude,position.coords.longitude );
+      var sunset=sun.sunsetLocalHours(currentTime.getTimezoneOffset()/60);
+      ssmin=(sunset*60)%60
+      ssmin=ssmin-(ssmin%1)
+      sshours=sunset-(sunset%1)
+      var sunrise=sun.sunriseLocalHours(currentTime.getTimezoneOffset()/60);
+      srmin=(sunrise*60)%60
+      srmin=srmin-(srmin%1)
+      srhours=sunrise-(sunrise%1)
+      $('#sunset').html(sshours+":"+ssmin+"  ("+sunset+")");
+      $('#sunrise').html(srhours+":"+srmin+"  ("+sunrise+")");
+    }
+    
+    function geolocation_error()
+    {
+    }
+    
         
 
 $(document).ready(function () {
+	var currentTime = new Date ( );
+	window.TimezoneOffset=currentTime.getTimezoneOffset();
+	window.Day=currentTime.getDate();
+	window.Month=currentTime.getMonth();
+	window.Year=currentTime.getFullYear();
+
+	
+	
 	get_cameraclient( $('#camidentifier'),"get_model","")
 
 	install_widget( $('#shutterspeed'),"get_capturesetting","shutterspeed2")
@@ -186,12 +213,22 @@ $(document).ready(function () {
 	install_widget( $('#exposurecompensation'),"get_capturesetting","exposurecompensation")
 	install_widget( $('#aelaflmode'),"get_capturesetting","aelaflmode")
 
-	setInterval('updateClock($("#clientclock"))', 1000);
+	$('#flip-geotracking').on("slidestop",function(event, ui) {
+	  if ($('#flip-geotracking').val()=="on")
+	  {
+	    geotrack_start()
+	  }
+	  else
+	  {
+	    geotrack_stop()
+	  }
+	});
+
+	setInterval('updateClock($("#time"),$("#date"))', 1000);
 
 	$("#click_button").on("click",function(event, ui) {
 		click();
 	});
-	$('#gps_long').html="hello world";
-	initiate_geolocation();
-  
+
+
 }); 
