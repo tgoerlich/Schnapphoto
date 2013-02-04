@@ -57,6 +57,7 @@ System requirements
 - Python 2.7 (didn't try python 3 yet)
 - These Python modules:
   - Pyro4
+  - Daemon
   - ctypes
   - piggyphoto (find it on github, make sure to get the latest version / trunk)
 - jquery mobile 1.3.0 (beta)
