@@ -38,6 +38,7 @@
  
   <script src="/js/jquery-1.9.0.js"></script>
   <script src="/js/jquery.mobile-1.3.0-beta.1.js"></script>
+  <script src="/js/sunrisesunset.js"></script>
   <script src="/js/schnapphoto.js"></script>
 
   <script type="text/javascript">
@@ -58,6 +59,7 @@
     <a href="#takepictures" data-role="button">take pictures</a>
     <a href="#viewcameraroll" data-role="button">view camera roll</a>
     <a href="#camerainfo" data-role="button">camera info</a>
+    <a href="#geotracking" data-role="button">geotracking</a>
     <a href="#admin" data-role="button">admin stuff</a>
 
   </div>
@@ -73,8 +75,7 @@
   
   <div data-role="content">	
     <div data-role="fieldcontain">
-      <fieldset data-role="controlgroup">
-    
+      <fieldset data-role="controlgroup">    
 	<div data-role="collapsible-set">
 	  <div data-role="collapsible" data-collapsed="true">
 	    <h3>main settings</h3>   
@@ -224,16 +225,43 @@
   </div><!-- /header -->
 </div><!-- /page -->
 
+
+<div data-role="page" id="geotracking">
+  <div data-role="header">
+    <h1>Geotracking</h1>
+    <a href="#main" data-role="button" data-icon="home" data-iconpos="notext"></a>
+    <a data-role="button" onclick="location.reload(true);" data-icon="refresh" data-iconpos="notext"></a>
+  </div><!-- /header -->
+  <div data-role="content">
+    <div class="ui-grid-a">
+      <div class="ui-block-a">
+	geotracking
+      </div>
+      <div class="ui-block-b" align='right'>		  
+	<select name="flip-geotracking" id="flip-geotracking" data-role="slider" data-mini="true">
+	  <option value="off" selected>Off</option>
+	  <option value="on">On</option>
+	</select>
+      </div>
+    </div><!-- /grid-a --> 		  
+  
+    <div><span>Lat    </span><span id='gps_lat' name='gps_lat'>lat</span></div>
+    <div><span>Long   </span><span id='gps_long' name='gps_long'>long</span></div>
+    <div><span>Date   </span><span id='date' name='date'>date</span></div>
+    <div><span>Time   </span><span id='time' name='time'>time</span></div>
+    <div><span>sunset </span><span id='sunset' name='sunset'>time</span></div>
+    <div><span>sunrise</span><span id='sunrise' name='sunrise'>time</span></div>
+    
+  </div>
+</div><!-- /page -->
+
+
 <div data-role="page" id="admin">
   <div data-role="header">
     <h1>admin</h1>
     <a href="#main" data-role="button" data-icon="home" data-iconpos="notext"></a>
     <a data-role="button" onclick="location.reload(true);" data-icon="refresh" data-iconpos="notext"></a>
   </div><!-- /header -->
-  <div data-role="content">	
-    <div id='gps_lat' name='gps_lat'>lat</div>
-    <div id='gps_long' name='gps_long'>long</div>
-  </div>
 </div><!-- /page -->
 
 
