@@ -1,0 +1,15 @@
+- find out if camera is busy, write loop
+- add more capturesettings
+- display camera status (battery, serial, etc)
+- tethered mode: capture camera events
+- open file from camera sd card
+- write file to camera sd card
+- alter exif data
+- read out exif thumbnail
+- change css (color) at runtime (event: camera found)
+- save capture settings as presets (cookie?)
+- re-connect to camera if connection is broken (loop)
+- restart daemon if got killed
+- admin-area: shutdown, restart daemon
+- fix sunset/sunrise calc
+
