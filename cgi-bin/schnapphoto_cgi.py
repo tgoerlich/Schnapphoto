@@ -23,7 +23,10 @@ content_jpg="Content-Type: img/jpeg\n\n"
 def get_model(data):
     global content_txt
     global cam
-    result=content_txt+cam.get_model()
+    try:
+      result=content_txt+cam.get_model()
+    except:
+      result="no camera"
     return result
    
    
@@ -145,70 +148,18 @@ command_array = {
 
 try:
   cam = Pyro.core.getProxyForURI("PYROLOC://localhost:7766/schnapphoto")
-except:
-  result = content_txt+"connection to camerahost.py failed"
-
-data = cgi.FieldStorage()
-result="" 
-if data.has_key( 'cmd' ):  
-  command = data['cmd'].value
-  try:
-    result=command_array[command](data)
-  except KeyError:
-    result=unknowncmd(data)
-else:
-  result=nocmd()
-
-print result
-	
-'''	
-try:
-  cam = Pyro.core.getProxyForURI("PYROLOC://localhost:7766/schnapphoto")
   data = cgi.FieldStorage()
-  result=""
-  content_txt="Content-Type: text/plain\n\n"
-  content_jpg="Content-Type: img/jpeg\n\n"
-  
-  if data.has_key( 'cmd' ):
-    if data['cmd'].value=="get_model":
-      result=content_txt+cam.get_model()
-    elif data['cmd'].value=="get_capturesetting":
-      if data.has_key( 'attribute' ):
-	result=content_txt+cam.get_capturesetting(data['attribute'].value)
-      else:
-	result="no attribute given"
-    elif data['cmd'].value=="get_capturesetting_all_options":
-      if data.has_key( 'attribute' ):
-	result=content_txt+cam.get_capturesetting_all_options(data['attribute'].value)
-      else:
-	result="no attribute given"
-    elif data['cmd'].value=="get_status":
-      if data.has_key( 'attribute' ):
-	result=content_txt+cam.get_status(data['attribute'].value)
-      else:
-	result=content_txt+"no attribute given"
-    elif data['cmd'].value=="create_file_index":
-      result=content_txt+cam.create_file_index()
-    elif data['cmd'].value=="get_file_index":
-      result=content_txt+cam.create_file_index()
-    elif data['cmd'].value=="get_latest_image":
-      result=content_jpg+cam.get_latest_image()
-    elif data['cmd'].value=="close":
-      result=content_txt+cam.close()
-    elif data['cmd'].value=="getsystemtime":
-      result="systemtime"
-    elif data['cmd'].value=="getcameratime":
-      result="cameratime"
-    else:
-      result=content_txt+"unknown command"
+  result="" 
+  if data.has_key( 'cmd' ):  
+    command = data['cmd'].value
+    try:
+      result=command_array[command](data)
+    except KeyError:
+      result=unknowncmd(data)
   else:
-    result=content_txt+"no command"
-
+    result=nocmd()
 except:
-  result = content_txt+"connection to camerahost.py failed"
+  #result = content_txt+"connection to camerahost.py failed"
+  result=""
   
-
 print result
-	
-	
-'''
