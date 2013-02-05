@@ -1,6 +1,6 @@
 #!/usr/bin/python
 #
-# schnapphoto.py
+# SCHNAPPHOTO
 # Middleware and webapp to remotely control your digital camera with a mobile device
 # Copyright (c) 2013 Thomas Goerlich
 #
@@ -14,6 +14,7 @@
 import piggyphoto as pp
 import Pyro.core
 import os
+import sys
 import time
 from array import array
 from ctypes import byref
@@ -92,33 +93,32 @@ class CameraHost(Pyro.core.ObjBase):
 		  retval="unknown"
 		self.unlock()
 		return retval
+		
+	def __set_capset(self,config,attribute,value):
+		try:
+		    config.main.capturesettings.__getattribute__(attribute).value=value
+		    self.cam.set_config(config)
+		    retval=0
+		    #retval=sys.exc_info()[1].result
+		    print "success:",sys.exc_info()[1].__str__()
+		except:
+		    print "failed"
+		    retval=sys.exc_info()[1].result
+		    print sys.exc_info()[1].__str__()
+		print retval
+		return retval
+		
 	
 	def set_capturesetting(self,attribute,value):
-		#print "set_capturesetting (",attribute,",",value,")"
 		self.wait_until_unlocked()
-		self.lock()
-		retval="unknown"
+		self.lock()	
 		config=self.cam.config
-		#widget=self.cam.config.main.capturesettings.__getattribute__(attribute)
-		#print widget._get_name()," - ",widget._get_value()
-		retries=9
-		delay=0.5
-		result = 0
-		#TODO: wait until camera not busy
-		#for i in range(1 + retries):
-		try:
-		  config.main.capturesettings.__getattribute__(attribute).value=value
-		  #widget.value=value  
-		  #self.cam.config.main.capturesettings.__getattribute__(attribute)._set_value(value)
-		  self.cam.set_config(config)
-		  retval="ok"
-		except:
-		  retval="failed"
-		  
-		 #   if retval == 0: break
-		  #  else:
-		   #   time.sleep(delay)
-		    #  print("set_capturesetting (",attribute,",",value,") : retval=%s, retry #%d..." % (retval,i))
+		retval=1
+		i=0
+		while (retval!=0):
+		    i+=1
+		    print "try %d:" % (i)
+		    retval=self.__set_capset(self.cam.config,attribute,value)
 		self.unlock()
 		print "set_capturesetting (",attribute,",",value,") ", retval
 		return retval
@@ -284,10 +284,7 @@ class CameraHost(Pyro.core.ObjBase):
 		    if result == 0: break
 		    else:
 		      time.sleep(delay)
-		      print("trigger_picture() retry #%d..." % (i))
-		    for m in range(20):  
-		      retval = pp.gp.gp_camera_wait_for_event(self.cam._cam, 1, byref(returntype), byref(data), pp.context);
-		      print m,": ",retval
+		      print("trigger_picture() result %d - retry #%d..." % (result,i))
 		self.unlock()
 		return result
 		
@@ -302,24 +299,24 @@ class CameraHost(Pyro.core.ObjBase):
 		result = [key for key,value in list.iteritems() if value == searchvalue]
 		return int(result[0])
 		
-	def pictureloop(self,count=1,layers=1,evsteps=0,delay=0):
-		print "pictureloop(count:",count,"layers:",layers,"ev:",evsteps,"delay",delay,")"
+	def pictureloop(self,loops=1,layers=1,stops=0,bracketingtype="exposurecompensation",delay=0):
+		print "pictureloop(loops:",loops," layers:",layers," stops:",stops, " bracketingtype:",bracketingtype," delay",delay,")"
 		p=0
 		i=0
-		if not "exposurecompensation" in self.capturesettings:
-		  self.get_capturesetting_all_options("exposurecompensation")
-		ec_current=self.get_capturesetting("exposurecompensation")
-		print "ec_current:",ec_current
-		ec_current_key=self.get_key_for_value(self.capturesettings["exposurecompensation"],ec_current)
+		if not bracketingtype in self.capturesettings:
+		  self.get_capturesetting_all_options(bracketingtype)
+		current_setting=self.get_capturesetting(bracketingtype)
+		print "current_setting:",current_setting
+		ec_current_key=self.get_key_for_value(self.capturesettings[bracketingtype],current_setting)
 		print "ec_current_key",ec_current_key
-		print "count=",count
-		print range(0,count)
-		for i in range(0,count):
+		print "loops=",loops
+		print range(0,loops)
+		for i in range(0,loops):
 		  print "chk"
 		  print "loop ",i
 		  if (delay>0):
 		    time.sleep(delay)
-		  ec_step_key=ec_current_key-(((layers-1)/2)*evsteps)
+		  ec_step_key=ec_current_key-(((layers-1)/2)*stops)
 		  print "ec_step_key=",ec_step_key
 		  k=0
 		  print "layers=",layers
@@ -327,13 +324,20 @@ class CameraHost(Pyro.core.ObjBase):
 		    print "stop ",k		      
 		    if (ec_step_key<0):
 			ec_step_key=0
-		    if (ec_step_key>count(self.capturesettings['exposurecompensation'])-1):
-			ec_step_key=count(self.capturesettings['exposurecompensation'])-1
+		    print len(self.capturesettings[bracketingtype])
+		    if (ec_step_key>len(self.capturesettings[bracketingtype])-1):
+			ec_step_key=len(self.capturesettings[bracketingtype])-1
 		    print "ec_step_key=",ec_step_key
-		    self.set_capturesetting("exposurecompensation",self.capturesettings['exposurecompensation'][ec_step_key])
-		    ec_step_key+=evsteps
+		    self.set_capturesetting(bracketingtype,self.capturesettings[bracketingtype][ec_step_key])
+		    ec_step_key+=stops
 		    p+=1
 		    print self.trigger_picture()
-		self.set_capturesetting("exposurecompensation",ec_current)
+		self.set_capturesetting(bracketingtype,current_setting)
 		return p
- 
+		
+	def get_abilities(self, abilities):
+		ablist = {
+		    "operations"	: self.cam.abilities.operations,
+		    "file_operations"	: self.cam.abilities.file_operations
+		  }
+		return ablist[abilities]
