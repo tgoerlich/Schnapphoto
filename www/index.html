@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <!--
+# SCHNAPPHOTO
 # Middleware and webapp to remotely control your digital camera with a mobile device
 # Copyright (c) 2013 Thomas Goerlich
 #
@@ -154,10 +155,22 @@
 	    </div><!-- /grid-a -->
 	    <div class="ui-grid-a">
 	      <div class="ui-block-a">
-		<label for="evstops">ev stops</label>ev stops
+		<label for="bracketingtype">type</label>type
 	      </div>
 	      <div class="ui-block-b">
-		<select name="evstops" id="evstops" data-native-menu="false">
+		<select name="bracketingtype" id="bracketingtype" data-native-menu="false">
+		  <option value="shutterspeed2">shutter</option>
+		  <option value="exposurecompensation">ev</option>
+		  <option value="f-name">aperture</option>
+		</select>
+	      </div>
+	    </div><!-- /grid-a -->	    
+	    <div class="ui-grid-a">
+	      <div class="ui-block-a">
+		<label for="stops">stops</label>ev stops
+	      </div>
+	      <div class="ui-block-b">
+		<select name="stops" id="stops" data-native-menu="false">
 		  <option value="1">1</option>
 		  <option value="2">2</option>
 		  <option value="3">3</option>
