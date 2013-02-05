@@ -1,4 +1,4 @@
-- find out if camera is busy, write loop
+- find out if camera is busy, write loop (done for set_capturesetting)
 - add more capturesettings
 - display camera status (battery, serial, etc)
 - tethered mode: capture camera events
