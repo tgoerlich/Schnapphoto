@@ -1,6 +1,6 @@
 #!/usr/bin/python
 #
-# schnapphoto_cgi.py
+# SCHNAPPHOTO
 # Middleware and webapp to remotely control your digital camera with a mobile device
 # Copyright (c) 2013 Thomas Goerlich
 #
@@ -111,9 +111,21 @@ def getparam(data,key,defaultvalue):
 def take_picture(data):
     global content_txt
     global cam
-    result=cam.pictureloop(getparam(data,'picturecount',1),getparam(data,'bracketinglayers',1),getparam(data,'exposurecompensation',0),getparam(data,'delay',0))
+    result=cam.pictureloop(
+      loops=int(getparam(data,'picturecount',1)),
+      layers=int(getparam(data,'bracketinglayers',1)),
+      bracketingtype=getparam(data,'bracketingtype','shutterspeed2'),
+      stops=int(getparam(data,'stops',0)),
+      delay=int(getparam(data,'delay',0))
+      )
     return content_txt+result
-  
+    
+def get_abilities(data):
+    global content_txt
+    global cam
+    result=cam.get_abilities(getparam(data,'abilities'))
+    return content_txt+result
+      
 def get_systemtime(data):
     global content_txt
     global cam
@@ -142,7 +154,8 @@ command_array = {
   "set_capturesetting":set_capturesetting,
   "get_capturesetting_all_options":get_capturesetting_all_options,
   "get_latest_image":get_latest_image,
-  "take_picture":take_picture
+  "take_picture":take_picture,
+  "get_abilities":get_abilities
 }
 
 
