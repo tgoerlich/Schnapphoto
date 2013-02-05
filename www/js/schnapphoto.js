@@ -1,4 +1,4 @@
-// schnapphoto.js
+// SCHNAPPHOTO
 // Middleware and webapp to remotely control your digital camera with a mobile device
 // Copyright (c) 2013 Thomas Goerlich 
 //
@@ -136,15 +136,15 @@
     {
       picturecount=$('#picturecount').val();
       bracketinglayers=$('#bracketinglayers').val();
-      exposurecompensation=$('#evstops').val()
+      bracketingtype=$('#bracketingtype').val();
+      stops=$('#stops').val()
       delay=$('#delay').val();
       $.ajax( 
       {
 	type: 'get',
 	url: '/cgi-bin/schnapphoto_cgi.py',
-	data: 'cmd=take_picture&picturecount='+picturecount+'&bracketinglayers='+bracketinglayers+'&exposurecompensation='+exposurecompensation+'&delay='+delay,
+	data: 'cmd=take_picture&picturecount='+picturecount+'&bracketinglayers='+bracketinglayers+'&bracketingtype='+bracketingtype+'&stops='+stops+'&delay='+delay,
 	success: function( data ) {
-	  alert(data);
 	}
       });
     }
@@ -195,17 +195,32 @@
     {
     }
     
+    
+    function unlock_features(element,ability)
+    {
+      $.ajax( 
+      {
+	type: 'get',
+	url: '/cgi-bin/schnapphoto_cgi.py',
+	data: 'cmd=get_abilities&ability='+ability,
+	success: function( data ) {
+	  if (data=="0")
+	  {
+	    $(element).button('disable');
+	  }
+	  else
+	  {
+	    $(element).button('enable');
+	  }
+	}
+      });
+    }
         
 
 $(document).ready(function () {
-	var currentTime = new Date ( );
-	window.TimezoneOffset=currentTime.getTimezoneOffset();
-	window.Day=currentTime.getDate();
-	window.Month=currentTime.getMonth();
-	window.Year=currentTime.getFullYear();
 
-	
-	
+// 	$('#takepictures').button('disable');
+// 	$('#viewcameraroll').button('disable');
 	get_cameraclient( $('#camidentifier'),"get_model","")
 
 	install_widget( $('#shutterspeed'),"get_capturesetting","shutterspeed2")
@@ -216,11 +231,11 @@ $(document).ready(function () {
 	$('#flip-geotracking').on("slidestop",function(event, ui) {
 	  if ($('#flip-geotracking').val()=="on")
 	  {
-	    geotrack_start()
+	    geotrack_start();
 	  }
 	  else
 	  {
-	    geotrack_stop()
+	    geotrack_stop();
 	  }
 	});
 
@@ -229,6 +244,9 @@ $(document).ready(function () {
 	$("#click_button").on("click",function(event, ui) {
 		click();
 	});
+	
+	unlock_features('#takepictures','operations');
+// 	unlock_features('#viewcameraroll','file_operations');
 
 
 }); 
