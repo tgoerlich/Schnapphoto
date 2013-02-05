@@ -1,6 +1,6 @@
 #!/usr/bin/python
 #
-# schnapphoto_host.py
+# SCHNAPPHOTO
 # Middleware and webapp to remotely control your digital camera with a mobile device
 # Copyright (c) 2013 Thomas Goerlich
 #
@@ -12,13 +12,6 @@
 import Pyro.core
 from daemon import runner
 import schnapphoto		
-
-
-#def main():
-    
-#if __name__=="__main__":
-#    main()
-    
 
 class App():
     
