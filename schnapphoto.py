@@ -265,6 +265,8 @@ class CameraHost(Pyro.core.ObjBase):
 		return destination
 		
 	def get_file_index(self):
+		if not hasattr (self,'self.file_index'):
+		   self.create_file_index()
 		return self.file_index
 		
 	def get_file(self,i):
@@ -341,3 +343,6 @@ class CameraHost(Pyro.core.ObjBase):
 		    "file_operations"	: self.cam.abilities.file_operations
 		  }
 		return ablist[abilities]
+		
+	def get_camerainfo(self):
+		return self.cam.summary
