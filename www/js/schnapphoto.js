@@ -17,7 +17,10 @@
 	url: '/cgi-bin/schnapphoto_cgi.py',
 	data: 'cmd=' + command + '&attribute=' + attribute,
 	success: function( data ) {
-	      element.html(data);
+	  if (data=="no host") {
+	    alert("could not connect to schnapphoto daemon"); 
+	  }
+	  element.html(data);
 	}
       } );
     }
@@ -195,6 +198,19 @@
     {
     }
     
+    function camerainfo(element)
+    {
+       $.ajax( 
+      {
+	type: 'get',
+	url: '/cgi-bin/schnapphoto_cgi.py',
+	data: 'cmd=get_camerainfo',
+	success: function( data ) {
+	  $(element).html(data);
+	}
+      });
+    }
+    
     
     function unlock_features(element,ability)
     {
@@ -244,6 +260,8 @@ $(document).ready(function () {
 	$("#click_button").on("click",function(event, ui) {
 		click();
 	});
+
+	camerainfo('#camerainfotext')
 	
 	unlock_features('#takepictures','operations');
 // 	unlock_features('#viewcameraroll','file_operations');
