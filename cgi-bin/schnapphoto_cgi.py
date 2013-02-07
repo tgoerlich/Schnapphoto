@@ -23,10 +23,7 @@ content_jpg="Content-Type: img/jpeg\n\n"
 def get_model(data):
     global content_txt
     global cam
-    try:
-      result=content_txt+cam.get_model()
-    except:
-      result="no camera"
+    result=content_txt+cam.get_model()
     return result
    
    
@@ -132,6 +129,11 @@ def get_systemtime(data):
     result="systemtime"
     return result
   
+def get_camerainfo(data):
+    global content_txt
+    global cam
+    result=cgi.escape(cam.get_camerainfo())
+    return content_txt+result
   
 def unknowncmd(data):
     global content_txt
@@ -155,7 +157,8 @@ command_array = {
   "get_capturesetting_all_options":get_capturesetting_all_options,
   "get_latest_image":get_latest_image,
   "take_picture":take_picture,
-  "get_abilities":get_abilities
+  "get_abilities":get_abilities,
+  "get_camerainfo":get_camerainfo
 }
 
 
@@ -173,6 +176,6 @@ try:
     result=nocmd()
 except:
   #result = content_txt+"connection to camerahost.py failed"
-  result=""
+  result=content_txt+"could not connect to schnapphoto daemon"
   
 print result
