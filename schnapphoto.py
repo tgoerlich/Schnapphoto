@@ -81,7 +81,51 @@ class CameraHost(Pyro.core.ObjBase):
 		print retval
 		self.unlock()
 		return retval
-		  
+		
+	def set_widget_value(self,widgetname,value):
+		print "set_widget_value (",widgetname,",",value,")"
+		widget=self.cam.config.get_child_by_name(widgetname)
+		try:
+		  widget.value=value
+		  rootwidget=widget.root
+		  self.cam.set_config(rootwidget)
+		  result="success"
+		except:
+		   result="failed"
+		print result
+		return result	  
+		
+	def get_widget_value(self,widgetname):
+		print "get_widgetsetting (,",widgetname,")"
+		widget=self.cam.config.get_child_by_name(widgetname)
+		try:
+		  value=widget.value
+		except:
+		   value=""
+		return value
+	
+	def get_widget_options(self,widgetname):
+		print "get_widget_full_set (",widgetname,")"
+		widget=self.cam.config.get_child_by_name(widgetname)
+		choicecount=widget.count_choices()
+		result=""
+		for i in range(0,choicecount):
+		  result+=widget.get_choice(i)
+		  if (i<choicecount-1):
+		    result+=","
+		return result  
+	
+	def get_widget_readonly(self,widgetname):
+		print "get_widget_readonly (",widgetname,")"
+		widget=self.cam.config.get_child_by_name(widgetname)
+		return widget.readonly
+		
+	def get_widget_label(self,widgetname):
+		print "get_widget_label (",widgetname,")"
+		widget=self.cam.config.get_child_by_name(widgetname)
+		return widget.label
+	    
+	
 	def get_capturesetting(self,attribute):
 		print "get_capturesetting (",attribute,")"
 		self.wait_until_unlocked()
@@ -113,9 +157,9 @@ class CameraHost(Pyro.core.ObjBase):
 		self.wait_until_unlocked()
 		self.lock()	
 		config=self.cam.config
-		retval=1
-		i=0
-		while (retval!=0):
+		retval=-101
+		i=-1
+		while (retval==-101):
 		    i+=1
 		    print "try %d:" % (i)
 		    retval=self.__set_capset(self.cam.config,attribute,value)
@@ -346,3 +390,29 @@ class CameraHost(Pyro.core.ObjBase):
 		
 	def get_camerainfo(self):
 		return self.cam.summary
+	
+		
+	def display_widgets(self,widget,prefix):
+		print "display_widgets"
+		label=widget.label
+		name=prefix+widget.name
+		print "label:    ",label
+		print "name:     ",name
+		if (widget.info):
+		  print "info:     ",widget.info
+		try:
+		  print "value:    ",widget.value
+		except:
+		  print "value:     none"
+		print "choices:  ",widget.choices
+		print "readonly: ",widget.readonly
+		n=widget.count_children()
+		for i in range(0,n):
+		  child=widget.get_child(i)
+		  self.display_widgets(child,name+":")
+		  
+	def list_all_config(self):
+		print "list_all_config"
+		self.display_widgets(self.cam.config,"")
+		
+	
