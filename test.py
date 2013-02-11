@@ -1,7 +1,7 @@
 import schnapphoto		
 
 cam = schnapphoto.CameraHost("true")
-print cam.get_model()
+#print cam.get_widget_value("model")
 #print cam.get_capturesetting("f-number")
 #print cam.get_capturesetting_all_options("f-number")
 #print "-------------------------"
@@ -27,5 +27,5 @@ print widget.name
 print cam.get_widget_value("shutterspeed2")
 print cam.get_widget_options("shutterspeed2")
 cam.set_widget_value("shutterspeed2","1/30")
-#cam.list_all_config()
+cam.list_all_config()
 cam.close()
