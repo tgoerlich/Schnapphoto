@@ -237,13 +237,51 @@ $(document).ready(function () {
 
 // 	$('#takepictures').button('disable');
 // 	$('#viewcameraroll').button('disable');
+
 	get_cameraclient( $('#camidentifier'),"get_model","")
 
 	install_widget( $('#shutterspeed'),"get_capturesetting","shutterspeed2")
 	install_widget( $('#fnumber'),"get_capturesetting","f-number")
 	install_widget( $('#exposurecompensation'),"get_capturesetting","exposurecompensation")
 	install_widget( $('#aelaflmode'),"get_capturesetting","aelaflmode")
+	install_widget( $('#capturemode'),"get_capturesetting","capturemode")
+	install_widget( $('#autofocusarea'),"get_capturesetting","autofocusarea")
+	install_widget( $('#exposurelock'),"get_capturesetting","exposurelock")
+	install_widget( $('#expprogram'),"get_capturesetting","expprogram")
+	install_widget( $('#flashmode'),"get_capturesetting","flashmode")
+	install_widget( $('#focusmode2'),"get_capturesetting","focusmode2")
+	install_widget( $('#assistlight'),"get_capturesetting","assistlight")
+	install_widget( $('#exposuremetermode'),"get_capturesetting","exposuremetermode") 
+	install_widget( $('#focallength'),"get_capturesetting","focallength") 
+	install_widget( $('#focusmetermode'),"get_capturesetting","focusmetermode") 
+	install_widget( $('#focusmode'),"get_capturesetting","focusmode") 
+	install_widget( $('#imagequality'),"get_capturesetting","imagequality") 
+	install_widget( $('#imagereview'),"get_capturesetting","imagereview") 
+	install_widget( $('#nikonflashmode'),"get_capturesetting","nikonflashmode")
+	install_widget( $('#tonecompensation'),"get_capturesetting","tonecompensation")
 
+	
+	
+	
+	
+	//config.main.capturesettings
+	//'aelaflmode', 'assistlight', 'autofocusarea','capturemode', 'exposurecompensation', 'exposurelock','expprogram', 'f-number', 'flashexposurecompensation', 'flashmode', 'focusmode2','shutterspeed2'
+	//'afbeep',  'burstnumber','filenrsequencing', 'flashmodemanualpower',   
+	//  'imagerotationflag', 'isoautohilimit', 'longexpnr', 'maximumshots', 'minimumshutterspeed', 'nocfcardrelease', 'optimizeimage', 'remotetimeout', 'saturation', 'selftimerdelay', 'sharpening', 'shutterspeed',
+	//'exposuremetermode', 'flexibleprogram', 'focallength', 'focusmetermode', 'focusmode','hueadjustment', 'imagequality', 'imagereview', 'nikonflashmode','tonecompensation', 'whitebiaspreset0', 'whitebiaspreset1', 'whitebiaspresetno'
+	
+	//config.main.actions
+	//autofocusdrive
+	
+	//config.main.imgsettings
+	//'autoiso', 'colormodel', 'imagesize', 'iso', 'isoauto', 'whitebalance'
+	
+	//config.main.settings
+	//'capturetarget', 'datetime', 'fastfs', 'imagecomment', 'imagecommentenable', 'lcdofftime', 'recordingmedia'
+	
+	//config.main.status
+	//'acpower', 'aelocked', 'aflocked', 'apertureatmaxfocallength', 'apertureatminfocallength', 'batterylevel', 'externalflash', 'flashcharged', 'flashopen', 'lightmeter', 'lowlight', 'maxfocallength', 'minfocallength', 'orientation'
+	
 	$('#flip-geotracking').on("slidestop",function(event, ui) {
 	  if ($('#flip-geotracking').val()=="on")
 	  {
@@ -263,7 +301,7 @@ $(document).ready(function () {
 
 	camerainfo('#camerainfotext')
 	
-	unlock_features('#takepictures','operations');
+//	unlock_features('#takepictures','operations');
 // 	unlock_features('#viewcameraroll','file_operations');
 
 
