@@ -1,15 +1,21 @@
-- find out if camera is busy, write loop (done for set_capturesetting)
-- add more capturesettings
+- better handling of no camera / no schnappphoto-host
+- re-connect to camera if connection is broken (loop)
+- restart daemon if got killed
 - display camera status (battery, serial, etc)
-- tethered mode: capture camera events
+- bug: re-init fails after daemon kill
+- issue: camera is half-locked (does not show pictures) if connected (usb-cable in) - fix?
+- add more capturesettings
+- add *all* capturesettings (loop)
+- tethered mode: bind actions to camera events (i.e. on capture do exif edit, on changed setting do update ui...)
 - open file from camera sd card
 - write file to camera sd card
 - alter exif data
 - read out exif thumbnail
 - change css (color) at runtime (event: camera found)
 - save capture settings as presets (cookie?)
-- re-connect to camera if connection is broken (loop)
-- restart daemon if got killed
-- admin-area: shutdown, restart daemon
+- admin-area: shutdown, restart daemon, set system time / camera time
 - fix sunset/sunrise calc
 
+--------------------
+
+- find out if camera is busy, write loop (done for set_capturesetting)
