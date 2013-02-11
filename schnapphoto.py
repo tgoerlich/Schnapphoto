@@ -64,26 +64,27 @@ class CameraHost(Pyro.core.ObjBase):
 	      retval=1
 	    return retval
             
-        def get_model(self):
-		print "get_model"
-		self.wait_until_unlocked()
-		self.lock()
-		try:
-		  retval=self.cam.abilities.model
-		except:
-		  print "failed, trying reinit..."
-		  self.reinit()
-		try:
-		  retval=self.cam.abilities.model
-		except:
-		  print "get_model failed"
-		  retval="no camera"
-		print retval
-		self.unlock()
-		return retval
+        #def get_model(self):
+		#print "get_model"
+		#self.wait_until_unlocked()
+		#self.lock()
+		#try:
+		  #retval=self.cam.abilities.model
+		#except:
+		  #print "failed, trying reinit..."
+		  #self.reinit()
+		#try:
+		  #retval=self.cam.abilities.model
+		#except:
+		  #print "get_model failed"
+		  #retval="no camera"
+		#print retval
+		#self.unlock()
+		#return retval
 		
 	def set_widget_value(self,widgetname,value):
 		print "set_widget_value (",widgetname,",",value,")"
+		self.lock()
 		widget=self.cam.config.get_child_by_name(widgetname)
 		try:
 		  widget.value=value
@@ -96,16 +97,18 @@ class CameraHost(Pyro.core.ObjBase):
 		return result	  
 		
 	def get_widget_value(self,widgetname):
-		print "get_widgetsetting (,",widgetname,")"
 		widget=self.cam.config.get_child_by_name(widgetname)
+		self.lock()
 		try:
-		  value=widget.value
+		  result=widget.value
 		except:
-		   value=""
-		return value
+		   result=""
+		self.unlock()
+		print "get_widget_value (",widgetname,") - ",result
+		#return result
 	
 	def get_widget_options(self,widgetname):
-		print "get_widget_full_set (",widgetname,")"
+		self.lock()
 		widget=self.cam.config.get_child_by_name(widgetname)
 		choicecount=widget.count_choices()
 		result=""
@@ -113,59 +116,67 @@ class CameraHost(Pyro.core.ObjBase):
 		  result+=widget.get_choice(i)
 		  if (i<choicecount-1):
 		    result+=","
+		self.unlock()
+		print "get_widget_options (",widgetname,") - ",result		
 		return result  
 	
 	def get_widget_readonly(self,widgetname):
-		print "get_widget_readonly (",widgetname,")"
+		self.lock()
 		widget=self.cam.config.get_child_by_name(widgetname)
-		return widget.readonly
+		result=widget.readonly
+		self.unlock()
+		print "get_widget_readonly (",widgetname,") - ",result
+		return result  
 		
 	def get_widget_label(self,widgetname):
-		print "get_widget_label (",widgetname,")"
-		widget=self.cam.config.get_child_by_name(widgetname)
-		return widget.label
-	    
-	
-	def get_capturesetting(self,attribute):
-		print "get_capturesetting (",attribute,")"
-		self.wait_until_unlocked()
 		self.lock()
-		try:
-		  retval=self.cam.config.main.capturesettings.__getattribute__(attribute).value
-		except:
-		  print "get_capturesetting (",attribute,") failed"
-		  retval="unknown"
+		widget=self.cam.config.get_child_by_name(widgetname)
+		result=widget.label
 		self.unlock()
-		return retval
-		
-	def __set_capset(self,config,attribute,value):
-		try:
-		    config.main.capturesettings.__getattribute__(attribute).value=value
-		    self.cam.set_config(config)
-		    retval=0
-		    #retval=sys.exc_info()[1].result
-		    print "success:",sys.exc_info()[1].__str__()
-		except:
-		    print "failed"
-		    retval=sys.exc_info()[1].result
-		    print sys.exc_info()[1].__str__()
-		print retval
-		return retval
+		print "get_widget_label (",widgetname,") - ",result
+		return result
 		
 	
-	def set_capturesetting(self,attribute,value):
-		self.wait_until_unlocked()
-		self.lock()	
-		config=self.cam.config
-		retval=-101
-		i=-1
-		while (retval==-101):
-		    i+=1
-		    print "try %d:" % (i)
-		    retval=self.__set_capset(self.cam.config,attribute,value)
-		self.unlock()
-		print "set_capturesetting (",attribute,",",value,") ", retval
-		return retval
+	#def get_capturesetting(self,attribute):
+		#print "get_capturesetting (",attribute,")"
+		#self.wait_until_unlocked()
+		#self.lock()
+		#try:
+		  #retval=self.cam.config.main.capturesettings.__getattribute__(attribute).value
+		#except:
+		  #print "get_capturesetting (",attribute,") failed"
+		  #retval="unknown"
+		#self.unlock()
+		#return retval
+		
+	#def __set_capset(self,config,attribute,value):
+		#try:
+		    #config.main.capturesettings.__getattribute__(attribute).value=value
+		    #self.cam.set_config(config)
+		    #retval=0
+		    ##retval=sys.exc_info()[1].result
+		    #print "success:",sys.exc_info()[1].__str__()
+		#except:
+		    #print "failed"
+		    #retval=sys.exc_info()[1].result
+		    #print sys.exc_info()[1].__str__()
+		#print retval
+		#return retval
+		
+	
+	#def set_capturesetting(self,attribute,value):
+		#self.wait_until_unlocked()
+		#self.lock()	
+		#config=self.cam.config
+		#retval=-101
+		#i=-1
+		#while (retval==-101):
+		    #i+=1
+		    #print "try %d:" % (i)
+		    #retval=self.__set_capset(self.cam.config,attribute,value)
+		#self.unlock()
+		#print "set_capturesetting (",attribute,",",value,") ", retval
+		#return retval
 	
 	def get_status(self,attribute):
 		print "get_status (",attribute,")"
@@ -180,62 +191,62 @@ class CameraHost(Pyro.core.ObjBase):
 		print "get_status (",attribute,") ", retval
 		return retval
 		
-	def count_capturesetting_options(self,attribute):
-		print "count_capturesetting_options (",attribute,")"
-		self.wait_until_unlocked()
-		self.lock()
-		try:
-		  widget=self.cam.config.main.capturesettings.__getattribute__(attribute)
-		  retval=pp.gp.gp_widget_count_choices(widget._w)
-		except:
-		  retval="failure"
-		self.unlock()
-		print "count_capturesetting_options (",attribute,") ",retval
-		return retval
+	#def count_capturesetting_options(self,attribute):
+		#print "count_capturesetting_options (",attribute,")"
+		#self.wait_until_unlocked()
+		#self.lock()
+		#try:
+		  #widget=self.cam.config.main.capturesettings.__getattribute__(attribute)
+		  #retval=pp.gp.gp_widget_count_choices(widget._w)
+		#except:
+		  #retval="failure"
+		#self.unlock()
+		#print "count_capturesetting_options (",attribute,") ",retval
+		#return retval
 
-	def get_capturesetting_option(self,attribute,index):
-		self.wait_until_unlocked()
-		self.lock()
-		try:
-		  widget=self.cam.config.main.capturesettings.__getattribute__(attribute)
-		  retval=widget.get_choice(index)
-		except:
-		  retval="failure"
-		self.unlock()
-		#print "get_capturesetting_option ( attribute=",attribute,",index=",index,") ",retval
-		return retval
+	#def get_capturesetting_option(self,attribute,index):
+		#self.wait_until_unlocked()
+		#self.lock()
+		#try:
+		  #widget=self.cam.config.main.capturesettings.__getattribute__(attribute)
+		  #retval=widget.get_choice(index)
+		#except:
+		  #retval="failure"
+		#self.unlock()
+		##print "get_capturesetting_option ( attribute=",attribute,",index=",index,") ",retval
+		#return retval
 	
-	def read_capturesetting_options_from_cam(self,attribute):
-		options={}
-		c = self.count_capturesetting_options(attribute)
-		retval=""
-		for i in range(c):
-		  opt=self.get_capturesetting_option(attribute,i)
-		  options[i]=opt
-		  retval += opt
-		  if i<(c-1):
-		    retval+=","
-		self.capturesettings[attribute]=options
-		return retval
+	#def read_capturesetting_options_from_cam(self,attribute):
+		#options={}
+		#c = self.count_capturesetting_options(attribute)
+		#retval=""
+		#for i in range(c):
+		  #opt=self.get_capturesetting_option(attribute,i)
+		  #options[i]=opt
+		  #retval += opt
+		  #if i<(c-1):
+		    #retval+=","
+		#self.capturesettings[attribute]=options
+		#return retval
 	
-	def read_capturesetting_options_from_cache(self,attribute):
-		options=self.capturesettings[attribute]
-		c=len(options)
-		retval=""
-		for i in range(c):
-		  retval += options[i]
-		  if i<(c-1):
-		    retval+=","
-		return retval	
+	#def read_capturesetting_options_from_cache(self,attribute):
+		#options=self.capturesettings[attribute]
+		#c=len(options)
+		#retval=""
+		#for i in range(c):
+		  #retval += options[i]
+		  #if i<(c-1):
+		    #retval+=","
+		#return retval	
 	
-	def get_capturesetting_all_options(self, attribute):
-		retval=""
-		if attribute in self.capturesettings:
-		  retval=self.read_capturesetting_options_from_cache(attribute)
-		else:
-		  retval=self.read_capturesetting_options_from_cam(attribute)
-		print "get_all_options (",attribute,") ", retval
-		return retval
+	#def get_capturesetting_all_options(self, attribute):
+		#retval=""
+		#if attribute in self.capturesettings:
+		  #retval=self.read_capturesetting_options_from_cache(attribute)
+		#else:
+		  #retval=self.read_capturesetting_options_from_cam(attribute)
+		#print "get_all_options (",attribute,") ", retval
+		#return retval
 	
 	def get_picture(self):
 		print "get_picture"
