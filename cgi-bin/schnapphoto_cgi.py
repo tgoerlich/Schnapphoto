@@ -23,48 +23,82 @@ content_jpg="Content-Type: img/jpeg\n\n"
 def get_model(data):
     global content_txt
     global cam
-    result=content_txt+cam.get_model()
-    return result
+    return content_txt+cam.get_model()
    
-   
-def get_capturesetting(data):
+#def get_capturesetting(data):
+    #global content_txt
+    #global cam
+    #if data.has_key( 'attribute' ):
+	#result=content_txt+cam.get_capturesetting(data['attribute'].value)
+    #else:
+	#result="no attribute given"
+    #return result
+
+def get_widget_value(data):    
     global content_txt
     global cam
     if data.has_key( 'attribute' ):
-	result=content_txt+cam.get_capturesetting(data['attribute'].value)
+	result=content_txt+cam.get_widget_value(data['attribute'].value)
     else:
 	result="no attribute given"
-    return result
+    return result    
+    
+def get_widget_label(data):
+    global content_txt
+    global cam
+    if data.has_key( 'attribute' ):
+	result=content_txt+cam.get_widget_label(data['attribute'].value)
+    else:
+	result="no attribute given"
+    return result 
 
-       
-def set_capturesetting(data):
+def set_widget_value(data):
     global content_txt
     global cam
     if data.has_key( 'attribute' ):
 	if data.has_key( 'value' ):
-	    result=content_txt+cam.set_capturesetting(data['attribute'].value,data['value'].value)
+	    result=content_txt+cam.set_widget_value(data['attribute'].value,data['value'].value)
 	else:
 	    result="no value given"
     else:
 	result="no attribute given"
-    return result
+    return result    
+    
+#def set_capturesetting(data):
+    #global content_txt
+    #global cam
+    #if data.has_key( 'attribute' ):
+	#if data.has_key( 'value' ):
+	    #result=content_txt+cam.set_capturesetting(data['attribute'].value,data['value'].value)
+	#else:
+	    #result="no value given"
+    #else:
+	#result="no attribute given"
+    #return result
   
-
-  
-def get_capturesetting_all_options(data):
+def get_widget_options(data):
     global content_txt
     global cam
     if data.has_key( 'attribute' ):
-	result=content_txt+cam.get_capturesetting_all_options(data['attribute'].value)
+	result=content_txt+cam.get_widget_options(data['attribute'].value)
     else:
 	result="no attribute given"
     return result
+        
+#def get_capturesetting_all_options(data):
+    #global content_txt
+    #global cam
+    #if data.has_key( 'attribute' ):
+	#result=content_txt+cam.get_capturesetting_all_options(data['attribute'].value)
+    #else:
+	#result="no attribute given"
+    #return result
    
    
-def get_choice(data):
-    global content_txt
-    global cam
-    return result
+#def get_choice(data):
+    #global content_txt
+    #global cam
+    #return result
   
   
 def get_file_index(data):
@@ -81,21 +115,21 @@ def get_latest_image(data):
     return result
   
   
-def get_status(data):
-    global content_txt
-    global cam
-    if data.has_key( 'attribute' ):
-      result=content_txt+cam.get_status(data['attribute'].value)
-    else:
-      result=content_txt+"no attribute given"
-    return result
+#def get_status(data):
+    #global content_txt
+    #global cam
+    #if data.has_key( 'attribute' ):
+      #result=content_txt+cam.get_status(data['attribute'].value)
+    #else:
+      #result=content_txt+"no attribute given"
+    #return result
   
   
-def get_cameratime(data):
-    global content_txt
-    global cam
-    result="cameratime"
-    return result
+#def get_cameratime(data):
+    #global content_txt
+    #global cam
+    #result="cameratime"
+    #return result
 
 def getparam(data,key,defaultvalue):
     if data.has_key( key ):
@@ -150,15 +184,19 @@ def nocmd():
   
   
 command_array = {
-  "get_model"      :get_model,
-  "get_cameratime" :get_cameratime,
-  "get_capturesetting":get_capturesetting,
-  "set_capturesetting":set_capturesetting,
-  "get_capturesetting_all_options":get_capturesetting_all_options,
-  "get_latest_image":get_latest_image,
-  "take_picture":take_picture,
-  "get_abilities":get_abilities,
-  "get_camerainfo":get_camerainfo
+  "get_model"         :get_model,
+  #"get_cameratime"    :get_cameratime,
+  "get_widget_value"  :get_widget_value,
+  "set_widget_value"  :set_widget_value,
+  "get_widget_options":get_widget_options,
+  "get_widget_label"  :get_widget_label,
+  #"get_capturesetting":get_capturesetting,
+  #"set_capturesetting":set_capturesetting,
+  #"get_capturesetting_all_options":get_capturesetting_all_options,
+  "get_latest_image"  :get_latest_image,
+  "take_picture"      :take_picture,
+  "get_abilities"     :get_abilities,
+  "get_camerainfo"    :get_camerainfo
 }
 
 
