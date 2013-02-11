@@ -16,8 +16,16 @@ print cam.get_model()
 #print cam.get_abilities("operations")
 #print cam.get_camerainfo()
 
-print cam.get_file_index()
+#print cam.get_file_index()
 
-# this returns "piggyphoto.libgphoto2error: Bad parameters (-2)" with the IXUS attached:
-# print cam.cam.get_config()
+# this returns "piggyphoto.libgphoto2error: Bad parameters (-2)" even with the NIKON attached:
+#print cam.cam.get_config()
+#print dir(cam.cam.config.main.actions)
+
+widget=cam.cam.config.get_child_by_name("shutterspeed2")
+print widget.name
+print cam.get_widget_value("shutterspeed2")
+print cam.get_widget_options("shutterspeed2")
+cam.set_widget_value("shutterspeed2","1/30")
+#cam.list_all_config()
 cam.close()
