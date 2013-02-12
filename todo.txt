@@ -1,3 +1,29 @@
+- increase speed: query all widgets in one go, deliver full set as XML to the client. Parse xml in jscript.
+
+Create XML in python:
+xmlTemplate = """<root>
+    <person>
+        <name>%(name)s</name>
+        <address>%(address)s</address>
+     </person>
+</root>"""
+
+data = {'name':'anurag', 'address':'Pune, india'}
+print xmlTemplate%data
+
+Output:
+
+<root>
+    <person>
+        <name>anurag</name>
+        <address>Pune, india</address>
+     </person>
+</root>
+
+
+Parse XML in jquery:
+http://www.phpeveryday.com/articles/jQuery-AJAX-and-XML-P970.html
+
 - better handling of no camera / no schnappphoto-host
 - re-connect to camera if connection is broken (loop)
 - restart daemon if got killed
