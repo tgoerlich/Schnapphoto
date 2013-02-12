@@ -99,7 +99,13 @@ def get_widget_options(data):
     #global content_txt
     #global cam
     #return result
-  
+    
+    
+def get_widgets_xml(data):
+    global content_txt
+    global cam
+    result=content_txt+cam.get_all_widgets_xml()
+    return result
   
 def get_file_index(data):
     global content_txt
@@ -190,6 +196,7 @@ command_array = {
   "set_widget_value"  :set_widget_value,
   "get_widget_options":get_widget_options,
   "get_widget_label"  :get_widget_label,
+  "get_widgets_xml"   :get_widgets_xml,
   #"get_capturesetting":get_capturesetting,
   #"set_capturesetting":set_capturesetting,
   #"get_capturesetting_all_options":get_capturesetting_all_options,
