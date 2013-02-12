@@ -64,23 +64,23 @@ class CameraHost(Pyro.core.ObjBase):
 	      retval=1
 	    return retval
             
-        #def get_model(self):
-		#print "get_model"
-		#self.wait_until_unlocked()
-		#self.lock()
-		#try:
-		  #retval=self.cam.abilities.model
-		#except:
-		  #print "failed, trying reinit..."
-		  #self.reinit()
-		#try:
-		  #retval=self.cam.abilities.model
-		#except:
-		  #print "get_model failed"
-		  #retval="no camera"
-		#print retval
-		#self.unlock()
-		#return retval
+        def get_model(self):
+		print "get_model"
+		self.wait_until_unlocked()
+		self.lock()
+		try:
+		  retval=self.cam.abilities.model
+		except:
+		  print "failed, trying reinit..."
+		  self.reinit()
+		try:
+		  retval=self.cam.abilities.model
+		except:
+		  print "get_model failed"
+		  retval="no camera"
+		print retval
+		self.unlock()
+		return retval
 		
 	def set_widget_value(self,widgetname,value):
 		print "set_widget_value (",widgetname,",",value,")"
@@ -403,6 +403,37 @@ class CameraHost(Pyro.core.ObjBase):
 		return self.cam.summary
 	
 		
+	def get_widget_xml(self,widget):
+		print "get_widget_xml"
+		xmlTemplate="""  <widget>
+		    <name>%(name)s</name>
+		    <label>%(label)s</label>
+		    <value>%(value)s</value>
+		    <readonly>%(readonly)s</readonly>
+		    <optioncount>%(optioncount)s</optioncount>
+		    <options>
+		    """
+		try:
+		  value=widget.value
+		except:
+		  value=""		  
+		c=widget.count_choices()
+		data={'name':widget.name,'label':widget.label,'value':value,'readonly':widget.readonly,'optioncount':c}
+		for k in range(0,c):
+		  xmls="""      <option number=%(number)s>%(value)s</option>
+		    """
+		  data2={'number':k+1,'value':widget.get_choice(k)}
+		  xmlTemplate+=xmls%data2
+		xmlTemplate+="""</options>
+		  </widget>
+		"""
+		self.widgets_xml+=xmlTemplate%data
+		n=widget.count_children()
+		for i in range(0,n):
+		  child=widget.get_child(i)
+		  print "child ",i
+		  self.get_widget_xml(child)
+	
 	def display_widgets(self,widget,prefix):
 		print "display_widgets"
 		label=widget.label
@@ -426,4 +457,11 @@ class CameraHost(Pyro.core.ObjBase):
 		print "list_all_config"
 		self.display_widgets(self.cam.config,"")
 		
-	
+	def get_all_widgets_xml(self):
+		self.widgets_xml=""
+		self.get_widget_xml(self.cam.config)
+		return """<?xml version=\"1.0\" encoding=\"utf-8\"?>
+		<widgets>
+		"""+self.widgets_xml+"""
+		</widgets>
+		"""
