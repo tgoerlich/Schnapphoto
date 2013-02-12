@@ -22,10 +22,13 @@ cam = schnapphoto.CameraHost("true")
 #print cam.cam.get_config()
 #print dir(cam.cam.config.main.actions)
 
-widget=cam.cam.config.get_child_by_name("shutterspeed2")
-print widget.name
-print cam.get_widget_value("shutterspeed2")
-print cam.get_widget_options("shutterspeed2")
-cam.set_widget_value("shutterspeed2","1/30")
-cam.list_all_config()
+#widget=cam.cam.config.get_child_by_name("shutterspeed2")
+#print widget.name
+#print cam.get_widget_value("shutterspeed2")
+#print cam.get_widget_options("shutterspeed2")
+#cam.set_widget_value("shutterspeed2","1/30")
+#cam.list_all_config()
+
+print cam.get_all_widgets_xml()
+
 cam.close()
