@@ -25,6 +25,40 @@
       } );
     }
      
+     
+    function get_widgets_xml()
+    {
+    $.ajax( 
+      {
+	type: 'get',
+	url: '/cgi-bin/schnapphoto_cgi.py',
+	data: 'cmd=get_widgets_xml',
+	success: function( data ) {
+	    document.widgetxml=$(data);
+	    $(data).find('widget').each(function(){
+	      var $widget=$(this);
+	      if (($widget.find('readonly').text()=="0") & ($widget.find('optioncount').text()>0)) {
+		html= "      <div class='ui-grid-a'>"
+	             +"         <div class='ui-block-a'>"
+		     +"            <label for='"+$widget.find('name').text()+"'>"+$widget.find('label').text()+"</label>"
+		     +"         </div>"
+		     +"         <div class='ui-block-b'>"
+		     +"            <select name='"+$widget.find('name').text()+"' id='"+$widget.find('name').text()+"' data-native-menu='false'>";
+		var $options = $widget.find('options');
+		if ($options.length){
+		  $options.find('option').each(function(){
+		    html+="              <option value='"+$(this).text()+"'>"+$(this).text()+"</option>"
+		  });
+		}
+		html+="            </select>"
+		     +"         </div>"
+		     +"	    </div><!-- /grid-a -->";
+		$('#all_settings').append(html);
+	      }
+	    });
+	}
+      });
+    }
  
      
     function populate_selectbox(element,attribute)
@@ -240,28 +274,28 @@ $(document).ready(function () {
 
 	get_cameraclient( $('#camidentifier'),"get_model","")
 
-	install_widget( $('#shutterspeed'),"shutterspeed2")
-	install_widget( $('#fnumber'),"f-number")
-	install_widget( $('#exposurecompensation'),"exposurecompensation")
-	install_widget( $('#aelaflmode'),"aelaflmode")
-	install_widget( $('#capturemode'),"capturemode")
-	install_widget( $('#autofocusarea'),"autofocusarea")
-	install_widget( $('#exposurelock'),"exposurelock")
-	install_widget( $('#expprogram'),"expprogram")
-	install_widget( $('#flashmode'),"flashmode")
-	install_widget( $('#focusmode2'),"focusmode2")
-	install_widget( $('#assistlight'),"assistlight")
-	install_widget( $('#exposuremetermode'),"exposuremetermode") 
-	install_widget( $('#focallength'),"focallength") 
-	install_widget( $('#focusmetermode'),"focusmetermode") 
-	install_widget( $('#focusmode'),"focusmode") 
-	install_widget( $('#imagequality'),"imagequality") 
-	install_widget( $('#imagereview'),"imagereview") 
-	install_widget( $('#nikonflashmode'),"nikonflashmode")
-	install_widget( $('#tonecompensation'),"tonecompensation")
+// 	install_widget( $('#shutterspeed'),"shutterspeed2")
+// 	install_widget( $('#fnumber'),"f-number")
+// 	install_widget( $('#exposurecompensation'),"exposurecompensation")
+// 	install_widget( $('#aelaflmode'),"aelaflmode")
+// 	install_widget( $('#capturemode'),"capturemode")
+// 	install_widget( $('#autofocusarea'),"autofocusarea")
+// 	install_widget( $('#exposurelock'),"exposurelock")
+// 	install_widget( $('#expprogram'),"expprogram")
+// 	install_widget( $('#flashmode'),"flashmode")
+// 	install_widget( $('#focusmode2'),"focusmode2")
+// 	install_widget( $('#assistlight'),"assistlight")
+// 	install_widget( $('#exposuremetermode'),"exposuremetermode") 
+// 	install_widget( $('#focallength'),"focallength") 
+// 	install_widget( $('#focusmetermode'),"focusmetermode") 
+// 	install_widget( $('#focusmode'),"focusmode") 
+// 	install_widget( $('#imagequality'),"imagequality") 
+// 	install_widget( $('#imagereview'),"imagereview") 
+// 	install_widget( $('#nikonflashmode'),"nikonflashmode")
+// 	install_widget( $('#tonecompensation'),"tonecompensation")
 
 	
-	
+	get_widgets_xml();
 	
 	
 	//config.main.capturesettings
